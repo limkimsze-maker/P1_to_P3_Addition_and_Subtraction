@@ -1,578 +1,509 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Red & Gold Math Hub — Addition & Subtraction</title>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Math Superhub — Addition & Subtraction</title>
 
   <style>
     :root{
-      /* your image colors */
+      /* ✅ exact “red & gold” vibe */
       --red:#f00020;
+      --red2:#c9001a;
       --gold:#f8e800;
+      --gold2:#d8c700;
 
       --ink:#0b1020;
-      --paper:#ffffff;
+      --muted: rgba(11,16,32,.70);
 
-      --shadow: 0 18px 50px rgba(0,0,0,.22);
-      --r:22px;
+      --panel:#ffffffea;
+      --panel2:#f4f4f6ea;
 
-      --S-title: 30px;
-      --S-sub: 15px;
-      --S-card: 22px;
-      --S-body: 14px;
+      --shadow: 0 18px 55px rgba(0,0,0,.25);
+      --shadow2: 0 10px 30px rgba(0,0,0,.18);
+
+      --r:34px;
+      --r2:28px;
+
+      --B: 4px; /* border thickness */
     }
 
-    *{ box-sizing:border-box }
-    html,body{ height:100% }
+    *{box-sizing:border-box}
+    html,body{height:100%}
     body{
       margin:0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
       color:var(--ink);
-
-      /* ✅ kid-friendly, fun red+gold sky */
-      background:
-        radial-gradient(900px 700px at 18% 18%, rgba(248,232,0,.55), transparent 60%),
-        radial-gradient(900px 700px at 84% 20%, rgba(240,0,32,.45), transparent 62%),
-        linear-gradient(180deg, rgba(240,0,32,.18), rgba(248,232,0,.18)),
-        linear-gradient(180deg, #12060a, #080810);
       overflow-x:hidden;
+
+      /* background like your screenshot */
+      background:
+        radial-gradient(1200px 800px at 18% 18%, rgba(248,232,0,.35), transparent 58%),
+        radial-gradient(1200px 800px at 86% 22%, rgba(240,0,32,.30), transparent 62%),
+        linear-gradient(90deg, rgba(248,232,0,.24), rgba(240,0,32,.22)),
+        linear-gradient(135deg, #1b0d10, #09080f);
     }
 
-    /* floating sparkles */
-    .sparkles{
-      position:fixed; inset:0; pointer-events:none;
-      background:
-        radial-gradient(circle at 12% 18%, rgba(255,255,255,.9) 0 1px, transparent 2px),
-        radial-gradient(circle at 26% 42%, rgba(255,255,255,.8) 0 1px, transparent 2px),
-        radial-gradient(circle at 44% 22%, rgba(255,255,255,.8) 0 1px, transparent 2px),
-        radial-gradient(circle at 64% 16%, rgba(255,255,255,.85) 0 1px, transparent 2px),
-        radial-gradient(circle at 78% 38%, rgba(255,255,255,.75) 0 1px, transparent 2px),
-        radial-gradient(circle at 88% 22%, rgba(255,255,255,.8) 0 1px, transparent 2px),
-        radial-gradient(circle at 20% 78%, rgba(255,255,255,.75) 0 1px, transparent 2px),
-        radial-gradient(circle at 72% 74%, rgba(255,255,255,.75) 0 1px, transparent 2px);
+    /* diagonal “laser” streaks */
+    .bg-lines{
+      position:fixed; inset:-30vh -30vw;
+      pointer-events:none;
       opacity:.35;
-      filter: blur(.2px);
-      animation: float 7s ease-in-out infinite;
-    }
-    @keyframes float{
-      0%,100%{ transform: translateY(0px); }
-      50%{ transform: translateY(-10px); }
-    }
-
-    /* lasers (more playful, thicker, with dashes) */
-    .lasers{
-      position:fixed; inset:0; pointer-events:none; overflow:hidden;
-      opacity:.9;
-      mix-blend-mode: screen;
-    }
-    .beam{
-      position:absolute; left:-30vw; width:160vw;
-      top: var(--top);
-      height: var(--h);
-      transform: rotate(var(--rot));
       background:
-        repeating-linear-gradient(90deg,
-          rgba(255,255,255,0) 0 18px,
-          rgba(255,255,255,.35) 18px 22px,
-          rgba(255,255,255,0) 22px 40px
-        ),
-        linear-gradient(90deg,
-          transparent,
-          rgba(248,232,0,.75),
-          rgba(240,0,32,.65),
-          transparent
+        repeating-linear-gradient(
+          165deg,
+          rgba(255,255,255,.25) 0 2px,
+          rgba(255,255,255,0) 2px 36px
         );
-      border-radius: 999px;
-      filter: drop-shadow(0 0 12px rgba(248,232,0,.35))
-              drop-shadow(0 0 16px rgba(240,0,32,.25));
-      animation: beamMove var(--dur) linear infinite;
+      transform: skewY(-2deg);
+      filter: blur(.2px);
+      mix-blend-mode: overlay;
     }
-    @keyframes beamMove{
-      0%{ transform: translateY(-120px) rotate(var(--rot)); opacity:0;}
-      10%{ opacity:1;}
-      70%{ opacity:.9;}
-      100%{ transform: translateY(560px) rotate(var(--rot)); opacity:0;}
+    .bg-glow{
+      position:fixed; inset:0;
+      pointer-events:none;
+      background:
+        radial-gradient(700px 400px at 30% 60%, rgba(248,232,0,.22), transparent 65%),
+        radial-gradient(700px 420px at 70% 45%, rgba(240,0,32,.18), transparent 65%);
+      opacity:.9;
     }
 
     .wrap{
-      max-width: 1060px;
+      max-width: 1500px;
       margin: 0 auto;
-      padding: 26px 16px 40px;
-      position:relative;
-      z-index:2;
+      padding: 26px 22px 28px;
     }
 
-    /* TOP HERO */
-    .hero{
+    /* ===== layout ===== */
+    .grid{
       display:grid;
-      grid-template-columns: 1.1fr .9fr;
-      gap: 16px;
-      align-items:stretch;
+      grid-template-columns: 1.35fr .9fr;
+      gap: 18px;
     }
-    @media (max-width: 900px){
-      .hero{ grid-template-columns: 1fr; }
+    .grid2{
+      margin-top: 18px;
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
     }
 
-    .heroCard{
-      background: rgba(255,255,255,.92);
-      border-radius: 26px;
+    @media (max-width: 1100px){
+      .grid{ grid-template-columns: 1fr; }
+      .grid2{ grid-template-columns: 1fr; }
+    }
+
+    /* ===== shared panel ===== */
+    .panel{
+      background: var(--panel);
+      border-radius: var(--r);
       box-shadow: var(--shadow);
-      padding: 18px 18px 16px;
+      border: 3px solid rgba(255,255,255,.85);
       position:relative;
       overflow:hidden;
-      border: 3px solid rgba(255,255,255,.45);
     }
-
-    /* big sticker corners */
-    .heroCard::before{
+    .panel::before{
       content:"";
       position:absolute; inset:-2px;
       background:
-        radial-gradient(180px 180px at 0% 0%, rgba(248,232,0,.95), transparent 60%),
-        radial-gradient(180px 180px at 100% 0%, rgba(240,0,32,.95), transparent 60%),
-        radial-gradient(200px 180px at 100% 100%, rgba(248,232,0,.75), transparent 65%),
-        radial-gradient(220px 200px at 0% 100%, rgba(240,0,32,.65), transparent 65%);
-      opacity:.20;
+        radial-gradient(600px 380px at 12% 10%, rgba(248,232,0,.20), transparent 60%),
+        radial-gradient(600px 380px at 88% 0%, rgba(240,0,32,.16), transparent 60%);
       pointer-events:none;
     }
-
-    .titleRow{
-      display:flex;
-      align-items:center;
-      gap:12px;
-      flex-wrap:wrap;
+    .panel-inner{
       position:relative;
+      padding: 26px 28px 22px;
     }
 
-    /* fun badge */
-    .superBadge{
+    /* ===== HERO (top-left) ===== */
+    .superhub-pill{
       display:inline-flex;
       align-items:center;
-      gap:10px;
-      padding: 10px 12px;
+      gap:12px;
+      padding: 12px 18px;
+      background: rgba(248,232,0,.88);
+      border: 3px solid rgba(0,0,0,.12);
       border-radius: 999px;
-      background: linear-gradient(180deg, rgba(248,232,0,.95), rgba(248,232,0,.70));
-      border: 3px solid rgba(0,0,0,.10);
       font-weight: 950;
-      letter-spacing:.2px;
-      transform: rotate(-2deg);
+      letter-spacing:.6px;
       box-shadow: 0 10px 22px rgba(0,0,0,.12);
     }
-    .star{
-      width:18px;height:18px;border-radius:6px;
+    .hub-icon{
+      width:26px; height:26px;
+      border-radius: 10px;
       background: var(--red);
-      box-shadow: 0 0 0 3px rgba(255,255,255,.65) inset;
-      display:grid;place-items:center;
-      color:#fff; font-weight:1000;
+      display:grid; place-items:center;
+      box-shadow: inset 0 0 0 3px rgba(255,255,255,.60);
+      color:#fff;
+      font-weight:1000;
       line-height:1;
+      font-size:14px;
     }
 
     h1{
-      margin:0;
-      font-size: var(--S-title);
-      letter-spacing:.2px;
+      margin: 16px 0 6px;
+      font-size: 52px;
       line-height:1.05;
+      letter-spacing:.2px;
     }
-    .sub{
-      margin-top:8px;
-      font-size: var(--S-sub);
-      color: rgba(0,0,0,.68);
+    @media (max-width: 650px){
+      h1{ font-size: 38px; }
+    }
+
+    .lead{
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-size: 20px;
       line-height:1.35;
-      position:relative;
     }
+    .lead b{ font-weight: 950; }
 
-    /* mascot math bubbles (no characters, just shapes) */
-    .bubbles{
-      margin-top: 12px;
+    .bubble-row{
       display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      position:relative;
-    }
-    .bubble{
-      padding: 9px 11px;
-      border-radius: 999px;
-      font-weight: 900;
-      border: 2px solid rgba(0,0,0,.10);
-      box-shadow: 0 8px 18px rgba(0,0,0,.08);
-      user-select:none;
-      cursor:pointer;
-      transition: transform .12s ease, filter .12s ease;
-      background: rgba(255,255,255,.9);
-    }
-    .bubble:hover{ transform: translateY(-2px) rotate(-1deg); filter: brightness(1.03); }
-    .bubble.gold{ background: rgba(248,232,0,.75); }
-    .bubble.red{ background: rgba(240,0,32,.75); color:#fff; }
-
-    /* side "mission board" */
-    .mission{
-      background: rgba(255,255,255,.92);
-      border-radius: 26px;
-      box-shadow: var(--shadow);
-      padding: 16px 16px 16px;
-      border: 3px solid rgba(255,255,255,.45);
-      position:relative;
-      overflow:hidden;
-    }
-    .mission h2{
-      margin:0;
-      font-size: 18px;
-      letter-spacing:.2px;
-    }
-    .checklist{
-      margin-top:10px;
-      display:grid;
-      gap:10px;
-    }
-    .item{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      padding: 10px 12px;
-      border-radius: 18px;
-      background: rgba(0,0,0,.05);
-      border: 2px dashed rgba(0,0,0,.16);
-      font-weight: 800;
-    }
-    .tick{
-      width:18px;height:18px;border-radius:6px;
-      display:grid;place-items:center;
-      font-size:12px;
-      background: rgba(248,232,0,.9);
-      border:2px solid rgba(0,0,0,.10);
-    }
-
-    /* MODULE CARDS */
-    .modules{
-      margin-top: 16px;
-      display:grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 16px;
-    }
-    @media (max-width: 860px){
-      .modules{ grid-template-columns: 1fr; }
-    }
-
-    .card{
-      border-radius: 26px;
-      box-shadow: var(--shadow);
-      overflow:hidden;
-      border: 3px solid rgba(255,255,255,.35);
-      background: rgba(255,255,255,.92);
-      position:relative;
-    }
-
-    .cardTop{
-      padding: 16px 16px 12px;
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap:12px;
-      border-bottom: 2px solid rgba(0,0,0,.08);
-      position:relative;
-    }
-
-    .ribbon{
-      position:absolute;
-      right:-52px;
-      top:14px;
-      transform: rotate(20deg);
-      padding: 8px 60px;
-      font-weight: 1000;
-      letter-spacing:.5px;
-      border-radius: 999px;
-      border: 3px solid rgba(0,0,0,.10);
-      box-shadow: 0 10px 22px rgba(0,0,0,.12);
-      opacity:.95;
-    }
-
-    .cardTitle{
-      margin:0;
-      font-size: var(--S-card);
-      letter-spacing:.2px;
-    }
-    .cardHint{
-      margin-top: 6px;
-      font-size: var(--S-body);
-      color: rgba(0,0,0,.68);
-      line-height: 1.35;
-      max-width: 60ch;
-    }
-
-    .cardBody{
-      padding: 14px 16px 16px;
-      display:grid;
-      gap: 12px;
-    }
-
-    .btnRow{
-      display:flex;
-      gap: 10px;
       flex-wrap:wrap;
       align-items:center;
     }
 
-    /* big kid-friendly buttons */
-    a.btn{
-      text-decoration:none;
+    .bubble{
       display:inline-flex;
       align-items:center;
       justify-content:center;
       gap:10px;
-      padding: 12px 14px;
-      border-radius: 18px;
-      font-weight: 1000;
-      letter-spacing:.2px;
-      font-size: 14px;
+      padding: 14px 18px;
+      border-radius: 999px;
       border: 3px solid rgba(0,0,0,.10);
-      box-shadow: 0 12px 22px rgba(0,0,0,.12);
+      background: #fff;
+      box-shadow: 0 10px 22px rgba(0,0,0,.10);
+      font-weight: 1000;
+      letter-spacing:.4px;
+      font-size: 20px;
+      user-select:none;
+    }
+    .bubble.yellow{
+      background: rgba(248,232,0,.92);
+    }
+    .bubble.red{
+      background: rgba(240,0,32,.82);
+      color:#fff;
+    }
+    .bubble .mini{
+      width:20px;height:20px;border-radius:8px;
+      background: rgba(0,0,0,.08);
+      display:grid;place-items:center;
+      font-size:14px;
+    }
+    .bubble.red .mini{ background: rgba(255,255,255,.22); }
+
+    /* ===== missions (top-right) ===== */
+    .missions-title{
+      margin:0 0 14px;
+      font-size: 32px;
+      letter-spacing:.2px;
+    }
+
+    .mission-item{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      padding: 16px 18px;
+      border-radius: 20px;
+      border: 3px dashed rgba(0,0,0,.18);
+      background: rgba(0,0,0,.04);
+      margin-bottom: 14px;
+      font-size: 26px;
+      font-weight: 900;
+    }
+    .chk{
+      width:30px;height:30px;
+      border-radius: 12px;
+      background: rgba(248,232,0,.92);
+      border: 3px solid rgba(0,0,0,.12);
+      display:grid;place-items:center;
+      font-size:18px;
+      flex: 0 0 auto;
+    }
+
+    /* ===== module cards (bottom row) ===== */
+    .module{
+      background: var(--panel);
+      border-radius: var(--r);
+      box-shadow: var(--shadow);
+      border: 3px solid rgba(255,255,255,.85);
+      overflow:hidden;
+      position:relative;
+    }
+
+    .module-head{
+      padding: 26px 26px 18px;
+      position:relative;
+      border-bottom: 3px solid rgba(0,0,0,.06);
+    }
+    .module-head h2{
+      margin:0 0 8px;
+      font-size: 42px;
+      letter-spacing:.2px;
+    }
+    .module-head p{
+      margin:0;
+      font-size: 22px;
+      color: rgba(0,0,0,.68);
+    }
+
+    .module-body{
+      padding: 22px 26px 24px;
+      background: rgba(245,245,248,.80);
+    }
+
+    /* angled corner ribbon */
+    .ribbon{
+      position:absolute;
+      right:-80px;
+      top: 18px;
+      transform: rotate(24deg);
+      padding: 16px 110px;
+      border-radius: 999px;
+      font-weight: 1000;
+      letter-spacing:.8px;
+      font-size: 24px;
+      border: 3px solid rgba(0,0,0,.12);
+      box-shadow: 0 10px 22px rgba(0,0,0,.12);
+    }
+
+    /* buttons */
+    .btnrow{
+      display:flex;
+      gap: 18px;
+      flex-wrap:wrap;
+      align-items:center;
+      margin-bottom: 18px;
+    }
+    a.bigbtn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:14px;
+      padding: 18px 22px;
+      border-radius: 20px;
+      border: 3px solid rgba(0,0,0,.10);
+      text-decoration:none;
+      font-size: 26px;
+      font-weight: 1000;
+      box-shadow: var(--shadow2);
+      min-width: 290px;
       transition: transform .12s ease, filter .12s ease;
       user-select:none;
-      min-width: 160px;
     }
-    a.btn:hover{ transform: translateY(-2px) rotate(-.3deg); filter: brightness(1.03); }
-    a.btn:active{ transform: translateY(0px) scale(.99); }
+    a.bigbtn:hover{ transform: translateY(-2px); filter: brightness(1.03); }
+    a.bigbtn:active{ transform: translateY(0px) scale(.99); }
 
-    .icon{
-      width:22px; height:22px; border-radius:10px;
-      background: rgba(255,255,255,.55);
-      border: 2px solid rgba(0,0,0,.10);
-      display:inline-grid; place-items:center;
-      font-weight: 1000;
-      line-height:1;
-    }
-
-    .meta{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      margin-top: 2px;
-    }
-    .pill{
-      font-size: 12px;
-      border:2px solid rgba(0,0,0,.10);
-      background: rgba(0,0,0,.04);
-      padding: 7px 10px;
+    .btnIcon{
+      width:34px;height:34px;
       border-radius: 999px;
-      color: rgba(0,0,0,.70);
-      font-weight: 900;
-    }
-
-    /* ADDITION card theme */
-    .add .cardTop{ background: rgba(248,232,0,.88); }
-    .add .ribbon{ background: rgba(240,0,32,.95); color:#fff; }
-    .add a.btn.primary{ background: rgba(248,232,0,.92); color:#111; }
-    .add a.btn.sls{ background: rgba(255,255,255,.92); color:#111; }
-
-    /* SUBTRACTION card theme */
-    .subtr .cardTop{ background: rgba(240,0,32,.90); color:#fff; }
-    .subtr .cardHint{ color: rgba(255,255,255,.86); }
-    .subtr .ribbon{ background: rgba(248,232,0,.95); color:#111; }
-    .subtr a.btn.primary{ background: rgba(240,0,32,.92); color:#fff; border-color: rgba(255,255,255,.25); }
-    .subtr a.btn.sls{ background: rgba(255,255,255,.92); color:#111; }
-
-    footer{
-      margin-top: 16px;
-      text-align:center;
-      font-size: 12px;
-      color: rgba(255,255,255,.82);
-      opacity:.95;
-    }
-    .credit{
-      display:inline-block;
-      padding: 8px 10px;
-      border-radius: 999px;
-      border: 2px solid rgba(255,255,255,.22);
-      background: rgba(0,0,0,.20);
-      font-weight: 800;
-      backdrop-filter: blur(8px);
-    }
-
-    /* toast */
-    .toast{
-      position: fixed;
-      left: 50%;
-      bottom: 18px;
-      transform: translateX(-50%);
-      background: rgba(255,255,255,.94);
+      display:grid;place-items:center;
       border: 3px solid rgba(0,0,0,.10);
-      color: rgba(0,0,0,.80);
-      padding: 10px 12px;
-      border-radius: 999px;
-      box-shadow: 0 18px 50px rgba(0,0,0,.22);
-      font-size: 13px;
-      opacity: 0;
-      pointer-events:none;
-      transition: opacity .18s ease, transform .18s ease;
-      max-width: min(680px, 92vw);
-      white-space: nowrap;
-      overflow:hidden;
-      text-overflow: ellipsis;
-      font-weight: 900;
-      z-index: 10;
-    }
-    .toast.show{
-      opacity:1;
-      transform: translateX(-50%) translateY(-4px);
+      background: rgba(255,255,255,.55);
+      font-size: 18px;
+      line-height:1;
+      flex: 0 0 auto;
     }
 
-    /* accessibility */
-    @media (prefers-reduced-motion: reduce){
-      .beam{ animation:none; opacity:.25; }
-      .sparkles{ animation:none; }
+    /* chips row */
+    .chips{
+      display:flex;
+      gap: 16px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+    .chip{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      border: 3px solid rgba(0,0,0,.12);
+      background: rgba(0,0,0,.03);
+      font-weight: 900;
+      font-size: 22px;
+      color: rgba(0,0,0,.72);
+    }
+    .chip .cico{
+      width:26px;height:26px;border-radius:10px;
+      display:grid;place-items:center;
+      background: rgba(0,0,0,.06);
+      font-size: 16px;
+    }
+
+    /* ===== addition theme ===== */
+    .add .module-head{
+      background: rgba(248,232,0,.92);
+    }
+    .add .ribbon{
+      background: rgba(240,0,32,.92);
+      color:#fff;
+    }
+    .add a.bigbtn.primary{
+      background: rgba(248,232,0,.92);
+      color:#111;
+    }
+    .add a.bigbtn.secondary{
+      background: #fff;
+      color:#111;
+    }
+
+    /* ===== subtraction theme ===== */
+    .sub .module-head{
+      background: rgba(240,0,32,.92);
+      color:#fff;
+    }
+    .sub .module-head p{ color: rgba(255,255,255,.85); }
+    .sub .ribbon{
+      background: rgba(248,232,0,.95);
+      color:#111;
+    }
+    .sub a.bigbtn.primary{
+      background: rgba(240,0,32,.92);
+      color:#fff;
+      border-color: rgba(255,255,255,.20);
+    }
+    .sub a.bigbtn.secondary{
+      background: #fff;
+      color:#111;
+    }
+
+    /* footer pill */
+    .footer{
+      margin-top: 18px;
+      display:flex;
+      justify-content:center;
+    }
+    .footer .credit{
+      padding: 12px 18px;
+      border-radius: 999px;
+      background: rgba(0,0,0,.35);
+      border: 2px solid rgba(255,255,255,.22);
+      color: rgba(255,255,255,.90);
+      font-weight: 900;
+      letter-spacing:.2px;
+      backdrop-filter: blur(8px);
     }
   </style>
 </head>
 
 <body>
-  <div class="sparkles"></div>
-
-  <div class="lasers" aria-hidden="true">
-    <div class="beam" style="--top:10vh; --rot:-10deg; --dur:5.4s; --h:4px;"></div>
-    <div class="beam" style="--top:18vh; --rot:-6deg;  --dur:6.2s; --h:2px;"></div>
-    <div class="beam" style="--top:28vh; --rot:-12deg; --dur:5.0s; --h:3px;"></div>
-    <div class="beam" style="--top:42vh; --rot:-7deg;  --dur:6.8s; --h:2px;"></div>
-    <div class="beam" style="--top:54vh; --rot:-9deg;  --dur:5.7s; --h:4px;"></div>
-    <div class="beam" style="--top:66vh; --rot:-11deg; --dur:6.5s; --h:2px;"></div>
-    <div class="beam" style="--top:76vh; --rot:-8deg;  --dur:5.3s; --h:3px;"></div>
-  </div>
+  <div class="bg-lines" aria-hidden="true"></div>
+  <div class="bg-glow" aria-hidden="true"></div>
 
   <div class="wrap">
-    <section class="hero">
-      <div class="heroCard">
-        <div class="titleRow">
-          <div class="superBadge"><span class="star">★</span> MATH SUPERHUB</div>
-          <h1>Addition & Subtraction</h1>
-        </div>
+    <!-- TOP ROW -->
+    <section class="grid">
+      <!-- HERO (matches left top) -->
+      <div class="panel">
+        <div class="panel-inner">
+          <div class="superhub-pill">
+            <span class="hub-icon">✦</span>
+            <span>MATH SUPERHUB</span>
+          </div>
 
-        <div class="sub">
-          Pick a mission card below. Press <b>Website</b> to play at home, or <b>Link to SLS</b>.
-        </div>
+          <h1>Addition &amp; Subtraction</h1>
 
-        <div class="bubbles" aria-label="fun bubbles">
-          <div class="bubble gold" data-b="addition">+ ADD</div>
-          <div class="bubble red" data-b="subtraction">− SUBTRACT</div>
-          <div class="bubble" data-b="speed">⚡ SPEED</div>
-          <div class="bubble" data-b="accuracy">🎯 ACCURACY</div>
+          <p class="lead">
+            Pick a mission card below. Press <b>Website</b> to play at home, or <b>Link to SLS</b>.
+          </p>
+
+          <div class="bubble-row">
+            <div class="bubble yellow"><span class="mini">+</span> ADD</div>
+            <div class="bubble red"><span class="mini">−</span> SUBTRACT</div>
+            <div class="bubble"><span class="mini">⚡</span> SPEED</div>
+            <div class="bubble"><span class="mini">🎯</span> ACCURACY</div>
+          </div>
         </div>
       </div>
 
-      <aside class="mission">
-        <h2>Today’s Missions</h2>
-        <div class="checklist">
-          <div class="item"><span class="tick">✓</span> Warm up: Look at an example</div>
-          <div class="item"><span class="tick">✓</span> Challenge yourself!</div>
-          <div class="item"><span class="tick">✓</span> Finish strong: aim for 100%</div>
+      <!-- MISSIONS (matches right top) -->
+      <div class="panel">
+        <div class="panel-inner">
+          <h2 class="missions-title">Today’s Missions</h2>
+
+          <div class="mission-item">
+            <span class="chk">✓</span>
+            <span>Warm up: Look at an example</span>
+          </div>
+
+          <div class="mission-item">
+            <span class="chk">✓</span>
+            <span>Challenge yourself!</span>
+          </div>
+
+          <div class="mission-item" style="margin-bottom:0">
+            <span class="chk">✓</span>
+            <span>Finish strong: aim for 100%</span>
+          </div>
         </div>
-      </aside>
+      </div>
     </section>
 
-    <section class="modules">
+    <!-- BOTTOM ROW -->
+    <section class="grid2">
       <!-- ADDITION CARD -->
-      <article class="card add">
-        <div class="cardTop">
-          <div>
-            <h2 class="cardTitle">Addition Adventure</h2>
-            <div class="cardHint">Understand and try to get all correct!</div>
-          </div>
-          <div class="ribbon">GO!</div>
+      <article class="module add">
+        <div class="module-head">
+          <span class="ribbon">GO!</span>
+          <h2>Addition Adventure</h2>
+          <p>Understand and try to get all correct!</p>
         </div>
 
-        <div class="cardBody">
-          <div class="btnRow">
-            <!-- ✅ replace these 2 links -->
-            <a class="btn primary" href="https://limkimsze-maker.github.io/P1_to_P3_Addition/" target="_blank" rel="noopener">
-              <span class="icon">↗</span> Website
+        <div class="module-body">
+          <div class="btnrow">
+            <!-- ✅ replace links -->
+            <a class="bigbtn primary" href="https://limkimsze-maker.github.io/P1_to_P3_Addition/"_blank" rel="noopener">
+              <span class="btnIcon">↗</span> Website
             </a>
-            <a class="btn sls" href="https://example.com/sls-addition" target="_blank" rel="noopener">
-              <span class="icon">S</span> Link to SLS
+
+            <a class="bigbtn secondary" href="" rel="noopener">
+              <span class="btnIcon">S</span>Pending Submission to SLS
             </a>
           </div>
 
-          <div class="meta">
-            <div class="pill">⭐ Stars</div>
-            <div class="pill">🎯 Accuracy</div>
-            <div class="pill">⚡ Speed</div>
+          <div class="chips">
+            <div class="chip"><span class="cico">⭐</span> Stars</div>
+            <div class="chip"><span class="cico">🎯</span> Accuracy</div>
+            <div class="chip"><span class="cico">⚡</span> Speed</div>
           </div>
         </div>
       </article>
 
       <!-- SUBTRACTION CARD -->
-      <article class="card subtr">
-        <div class="cardTop">
-          <div>
-            <h2 class="cardTitle">Subtraction Quest</h2>
-            <div class="cardHint">Find the difference, and give yourself a pat on the back! 🏆 </div>
-          </div>
-          <div class="ribbon">WOW!</div>
+      <article class="module sub">
+        <div class="module-head">
+          <span class="ribbon">WOW!</span>
+          <h2>Subtraction Quest</h2>
+          <p>Find the difference, and give yourself a pat on the back! 🏆</p>
         </div>
 
-        <div class="cardBody">
-          <div class="btnRow">
-            <!-- ✅ replace these 2 links -->
-            <a class="btn primary" href="https://limkimsze-maker.github.io/P1_to_P3_Subtraction/"_blank" rel="noopener">
-              <span class="icon">↗</span> Website
+        <div class="module-body">
+          <div class="btnrow">
+            <!-- ✅ replace links -->
+            <a class="bigbtn primary" href="https://limkimsze-maker.github.io/P1_to_P3_Subtraction/" rel="noopener">
+              <span class="btnIcon">↗</span> Website
             </a>
-            <a class="btn sls" href="https://example.com/sls-subtraction" target="_blank" rel="noopener">
-              <span class="icon">S</span> Link to SLS
+
+            <a class="bigbtn secondary" href="https://example.com/sls-subtraction" target="_blank" rel="noopener">
+              <span class="btnIcon">S</span> Pending Submission to SLS
             </a>
           </div>
 
-          <div class="meta">
-            <div class="pill">🏆 Badges</div>
-            <div class="pill">🧠 Brain Power</div>
-            <div class="pill">✨ Focus</div>
+          <div class="chips">
+            <div class="chip"><span class="cico">🏅</span> Badges</div>
+            <div class="chip"><span class="cico">🧠</span> Brain Power</div>
+            <div class="chip"><span class="cico">✨</span> Focus</div>
           </div>
         </div>
       </article>
     </section>
 
-    <footer>
-      <span class="credit">Designed by Lim Kim Sze © 2026</span>
-    </footer>
+    <div class="footer">
+      <div class="credit">Designed by Lim Kim Sze © 2026</div>
+    </div>
   </div>
-
-  <div class="toast" id="toast">Ready!</div>
-
-  <script>
-    const toastEl = document.getElementById("toast");
-    let timer = null;
-
-    function toast(msg){
-      toastEl.textContent = msg;
-      toastEl.classList.add("show");
-      clearTimeout(timer);
-      timer = setTimeout(()=> toastEl.classList.remove("show"), 1200);
-    }
-
-    // bubbles
-    document.querySelectorAll(".bubble").forEach(b=>{
-      b.addEventListener("click", ()=>{
-        const k = b.getAttribute("data-b");
-        const map = {
-          addition: "Addition mission selected! ⭐",
-          subtraction: "Subtraction mission selected! 🏆",
-          speed: "Speed tip: read carefully, then answer fast ⚡",
-          accuracy: "Accuracy tip: check your working 🎯"
-        };
-        toast(map[k] || "Let’s go!");
-      });
-    });
-
-    // buttons
-    document.querySelectorAll("a.btn").forEach(a=>{
-      a.addEventListener("mouseenter", ()=>{
-        toast("Ready: " + a.textContent.trim().replace(/\s+/g," "));
-      });
-      a.addEventListener("click", ()=>{
-        toast("Launching: " + a.textContent.trim().replace(/\s+/g," "));
-      });
-    });
-
-    toast("Welcome! Pick a mission card 🚀");
-  </script>
 </body>
 </html>
-
-
