@@ -1,0 +1,576 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Red & Gold Math Hub — Addition & Subtraction</title>
+
+  <style>
+    :root{
+      /* your image colors */
+      --red:#f00020;
+      --gold:#f8e800;
+
+      --ink:#0b1020;
+      --paper:#ffffff;
+
+      --shadow: 0 18px 50px rgba(0,0,0,.22);
+      --r:22px;
+
+      --S-title: 30px;
+      --S-sub: 15px;
+      --S-card: 22px;
+      --S-body: 14px;
+    }
+
+    *{ box-sizing:border-box }
+    html,body{ height:100% }
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--ink);
+
+      /* ✅ kid-friendly, fun red+gold sky */
+      background:
+        radial-gradient(900px 700px at 18% 18%, rgba(248,232,0,.55), transparent 60%),
+        radial-gradient(900px 700px at 84% 20%, rgba(240,0,32,.45), transparent 62%),
+        linear-gradient(180deg, rgba(240,0,32,.18), rgba(248,232,0,.18)),
+        linear-gradient(180deg, #12060a, #080810);
+      overflow-x:hidden;
+    }
+
+    /* floating sparkles */
+    .sparkles{
+      position:fixed; inset:0; pointer-events:none;
+      background:
+        radial-gradient(circle at 12% 18%, rgba(255,255,255,.9) 0 1px, transparent 2px),
+        radial-gradient(circle at 26% 42%, rgba(255,255,255,.8) 0 1px, transparent 2px),
+        radial-gradient(circle at 44% 22%, rgba(255,255,255,.8) 0 1px, transparent 2px),
+        radial-gradient(circle at 64% 16%, rgba(255,255,255,.85) 0 1px, transparent 2px),
+        radial-gradient(circle at 78% 38%, rgba(255,255,255,.75) 0 1px, transparent 2px),
+        radial-gradient(circle at 88% 22%, rgba(255,255,255,.8) 0 1px, transparent 2px),
+        radial-gradient(circle at 20% 78%, rgba(255,255,255,.75) 0 1px, transparent 2px),
+        radial-gradient(circle at 72% 74%, rgba(255,255,255,.75) 0 1px, transparent 2px);
+      opacity:.35;
+      filter: blur(.2px);
+      animation: float 7s ease-in-out infinite;
+    }
+    @keyframes float{
+      0%,100%{ transform: translateY(0px); }
+      50%{ transform: translateY(-10px); }
+    }
+
+    /* lasers (more playful, thicker, with dashes) */
+    .lasers{
+      position:fixed; inset:0; pointer-events:none; overflow:hidden;
+      opacity:.9;
+      mix-blend-mode: screen;
+    }
+    .beam{
+      position:absolute; left:-30vw; width:160vw;
+      top: var(--top);
+      height: var(--h);
+      transform: rotate(var(--rot));
+      background:
+        repeating-linear-gradient(90deg,
+          rgba(255,255,255,0) 0 18px,
+          rgba(255,255,255,.35) 18px 22px,
+          rgba(255,255,255,0) 22px 40px
+        ),
+        linear-gradient(90deg,
+          transparent,
+          rgba(248,232,0,.75),
+          rgba(240,0,32,.65),
+          transparent
+        );
+      border-radius: 999px;
+      filter: drop-shadow(0 0 12px rgba(248,232,0,.35))
+              drop-shadow(0 0 16px rgba(240,0,32,.25));
+      animation: beamMove var(--dur) linear infinite;
+    }
+    @keyframes beamMove{
+      0%{ transform: translateY(-120px) rotate(var(--rot)); opacity:0;}
+      10%{ opacity:1;}
+      70%{ opacity:.9;}
+      100%{ transform: translateY(560px) rotate(var(--rot)); opacity:0;}
+    }
+
+    .wrap{
+      max-width: 1060px;
+      margin: 0 auto;
+      padding: 26px 16px 40px;
+      position:relative;
+      z-index:2;
+    }
+
+    /* TOP HERO */
+    .hero{
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 16px;
+      align-items:stretch;
+    }
+    @media (max-width: 900px){
+      .hero{ grid-template-columns: 1fr; }
+    }
+
+    .heroCard{
+      background: rgba(255,255,255,.92);
+      border-radius: 26px;
+      box-shadow: var(--shadow);
+      padding: 18px 18px 16px;
+      position:relative;
+      overflow:hidden;
+      border: 3px solid rgba(255,255,255,.45);
+    }
+
+    /* big sticker corners */
+    .heroCard::before{
+      content:"";
+      position:absolute; inset:-2px;
+      background:
+        radial-gradient(180px 180px at 0% 0%, rgba(248,232,0,.95), transparent 60%),
+        radial-gradient(180px 180px at 100% 0%, rgba(240,0,32,.95), transparent 60%),
+        radial-gradient(200px 180px at 100% 100%, rgba(248,232,0,.75), transparent 65%),
+        radial-gradient(220px 200px at 0% 100%, rgba(240,0,32,.65), transparent 65%);
+      opacity:.20;
+      pointer-events:none;
+    }
+
+    .titleRow{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      flex-wrap:wrap;
+      position:relative;
+    }
+
+    /* fun badge */
+    .superBadge{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding: 10px 12px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, rgba(248,232,0,.95), rgba(248,232,0,.70));
+      border: 3px solid rgba(0,0,0,.10);
+      font-weight: 950;
+      letter-spacing:.2px;
+      transform: rotate(-2deg);
+      box-shadow: 0 10px 22px rgba(0,0,0,.12);
+    }
+    .star{
+      width:18px;height:18px;border-radius:6px;
+      background: var(--red);
+      box-shadow: 0 0 0 3px rgba(255,255,255,.65) inset;
+      display:grid;place-items:center;
+      color:#fff; font-weight:1000;
+      line-height:1;
+    }
+
+    h1{
+      margin:0;
+      font-size: var(--S-title);
+      letter-spacing:.2px;
+      line-height:1.05;
+    }
+    .sub{
+      margin-top:8px;
+      font-size: var(--S-sub);
+      color: rgba(0,0,0,.68);
+      line-height:1.35;
+      position:relative;
+    }
+
+    /* mascot math bubbles (no characters, just shapes) */
+    .bubbles{
+      margin-top: 12px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      position:relative;
+    }
+    .bubble{
+      padding: 9px 11px;
+      border-radius: 999px;
+      font-weight: 900;
+      border: 2px solid rgba(0,0,0,.10);
+      box-shadow: 0 8px 18px rgba(0,0,0,.08);
+      user-select:none;
+      cursor:pointer;
+      transition: transform .12s ease, filter .12s ease;
+      background: rgba(255,255,255,.9);
+    }
+    .bubble:hover{ transform: translateY(-2px) rotate(-1deg); filter: brightness(1.03); }
+    .bubble.gold{ background: rgba(248,232,0,.75); }
+    .bubble.red{ background: rgba(240,0,32,.75); color:#fff; }
+
+    /* side "mission board" */
+    .mission{
+      background: rgba(255,255,255,.92);
+      border-radius: 26px;
+      box-shadow: var(--shadow);
+      padding: 16px 16px 16px;
+      border: 3px solid rgba(255,255,255,.45);
+      position:relative;
+      overflow:hidden;
+    }
+    .mission h2{
+      margin:0;
+      font-size: 18px;
+      letter-spacing:.2px;
+    }
+    .checklist{
+      margin-top:10px;
+      display:grid;
+      gap:10px;
+    }
+    .item{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding: 10px 12px;
+      border-radius: 18px;
+      background: rgba(0,0,0,.05);
+      border: 2px dashed rgba(0,0,0,.16);
+      font-weight: 800;
+    }
+    .tick{
+      width:18px;height:18px;border-radius:6px;
+      display:grid;place-items:center;
+      font-size:12px;
+      background: rgba(248,232,0,.9);
+      border:2px solid rgba(0,0,0,.10);
+    }
+
+    /* MODULE CARDS */
+    .modules{
+      margin-top: 16px;
+      display:grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+    @media (max-width: 860px){
+      .modules{ grid-template-columns: 1fr; }
+    }
+
+    .card{
+      border-radius: 26px;
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      border: 3px solid rgba(255,255,255,.35);
+      background: rgba(255,255,255,.92);
+      position:relative;
+    }
+
+    .cardTop{
+      padding: 16px 16px 12px;
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:12px;
+      border-bottom: 2px solid rgba(0,0,0,.08);
+      position:relative;
+    }
+
+    .ribbon{
+      position:absolute;
+      right:-52px;
+      top:14px;
+      transform: rotate(20deg);
+      padding: 8px 60px;
+      font-weight: 1000;
+      letter-spacing:.5px;
+      border-radius: 999px;
+      border: 3px solid rgba(0,0,0,.10);
+      box-shadow: 0 10px 22px rgba(0,0,0,.12);
+      opacity:.95;
+    }
+
+    .cardTitle{
+      margin:0;
+      font-size: var(--S-card);
+      letter-spacing:.2px;
+    }
+    .cardHint{
+      margin-top: 6px;
+      font-size: var(--S-body);
+      color: rgba(0,0,0,.68);
+      line-height: 1.35;
+      max-width: 60ch;
+    }
+
+    .cardBody{
+      padding: 14px 16px 16px;
+      display:grid;
+      gap: 12px;
+    }
+
+    .btnRow{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+
+    /* big kid-friendly buttons */
+    a.btn{
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      padding: 12px 14px;
+      border-radius: 18px;
+      font-weight: 1000;
+      letter-spacing:.2px;
+      font-size: 14px;
+      border: 3px solid rgba(0,0,0,.10);
+      box-shadow: 0 12px 22px rgba(0,0,0,.12);
+      transition: transform .12s ease, filter .12s ease;
+      user-select:none;
+      min-width: 160px;
+    }
+    a.btn:hover{ transform: translateY(-2px) rotate(-.3deg); filter: brightness(1.03); }
+    a.btn:active{ transform: translateY(0px) scale(.99); }
+
+    .icon{
+      width:22px; height:22px; border-radius:10px;
+      background: rgba(255,255,255,.55);
+      border: 2px solid rgba(0,0,0,.10);
+      display:inline-grid; place-items:center;
+      font-weight: 1000;
+      line-height:1;
+    }
+
+    .meta{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top: 2px;
+    }
+    .pill{
+      font-size: 12px;
+      border:2px solid rgba(0,0,0,.10);
+      background: rgba(0,0,0,.04);
+      padding: 7px 10px;
+      border-radius: 999px;
+      color: rgba(0,0,0,.70);
+      font-weight: 900;
+    }
+
+    /* ADDITION card theme */
+    .add .cardTop{ background: rgba(248,232,0,.88); }
+    .add .ribbon{ background: rgba(240,0,32,.95); color:#fff; }
+    .add a.btn.primary{ background: rgba(248,232,0,.92); color:#111; }
+    .add a.btn.sls{ background: rgba(255,255,255,.92); color:#111; }
+
+    /* SUBTRACTION card theme */
+    .subtr .cardTop{ background: rgba(240,0,32,.90); color:#fff; }
+    .subtr .cardHint{ color: rgba(255,255,255,.86); }
+    .subtr .ribbon{ background: rgba(248,232,0,.95); color:#111; }
+    .subtr a.btn.primary{ background: rgba(240,0,32,.92); color:#fff; border-color: rgba(255,255,255,.25); }
+    .subtr a.btn.sls{ background: rgba(255,255,255,.92); color:#111; }
+
+    footer{
+      margin-top: 16px;
+      text-align:center;
+      font-size: 12px;
+      color: rgba(255,255,255,.82);
+      opacity:.95;
+    }
+    .credit{
+      display:inline-block;
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 2px solid rgba(255,255,255,.22);
+      background: rgba(0,0,0,.20);
+      font-weight: 800;
+      backdrop-filter: blur(8px);
+    }
+
+    /* toast */
+    .toast{
+      position: fixed;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%);
+      background: rgba(255,255,255,.94);
+      border: 3px solid rgba(0,0,0,.10);
+      color: rgba(0,0,0,.80);
+      padding: 10px 12px;
+      border-radius: 999px;
+      box-shadow: 0 18px 50px rgba(0,0,0,.22);
+      font-size: 13px;
+      opacity: 0;
+      pointer-events:none;
+      transition: opacity .18s ease, transform .18s ease;
+      max-width: min(680px, 92vw);
+      white-space: nowrap;
+      overflow:hidden;
+      text-overflow: ellipsis;
+      font-weight: 900;
+      z-index: 10;
+    }
+    .toast.show{
+      opacity:1;
+      transform: translateX(-50%) translateY(-4px);
+    }
+
+    /* accessibility */
+    @media (prefers-reduced-motion: reduce){
+      .beam{ animation:none; opacity:.25; }
+      .sparkles{ animation:none; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="sparkles"></div>
+
+  <div class="lasers" aria-hidden="true">
+    <div class="beam" style="--top:10vh; --rot:-10deg; --dur:5.4s; --h:4px;"></div>
+    <div class="beam" style="--top:18vh; --rot:-6deg;  --dur:6.2s; --h:2px;"></div>
+    <div class="beam" style="--top:28vh; --rot:-12deg; --dur:5.0s; --h:3px;"></div>
+    <div class="beam" style="--top:42vh; --rot:-7deg;  --dur:6.8s; --h:2px;"></div>
+    <div class="beam" style="--top:54vh; --rot:-9deg;  --dur:5.7s; --h:4px;"></div>
+    <div class="beam" style="--top:66vh; --rot:-11deg; --dur:6.5s; --h:2px;"></div>
+    <div class="beam" style="--top:76vh; --rot:-8deg;  --dur:5.3s; --h:3px;"></div>
+  </div>
+
+  <div class="wrap">
+    <section class="hero">
+      <div class="heroCard">
+        <div class="titleRow">
+          <div class="superBadge"><span class="star">★</span> MATH SUPERHUB</div>
+          <h1>Addition & Subtraction</h1>
+        </div>
+
+        <div class="sub">
+          Pick a mission card below. Press <b>Website</b> to play at home, or <b>Link to SLS</b>.
+        </div>
+
+        <div class="bubbles" aria-label="fun bubbles">
+          <div class="bubble gold" data-b="addition">+ ADD</div>
+          <div class="bubble red" data-b="subtraction">− SUBTRACT</div>
+          <div class="bubble" data-b="speed">⚡ SPEED</div>
+          <div class="bubble" data-b="accuracy">🎯 ACCURACY</div>
+        </div>
+      </div>
+
+      <aside class="mission">
+        <h2>Today’s Missions</h2>
+        <div class="checklist">
+          <div class="item"><span class="tick">✓</span> Warm up: Look at an example</div>
+          <div class="item"><span class="tick">✓</span> Challenge yourself!</div>
+          <div class="item"><span class="tick">✓</span> Finish strong: aim for 100%</div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="modules">
+      <!-- ADDITION CARD -->
+      <article class="card add">
+        <div class="cardTop">
+          <div>
+            <h2 class="cardTitle">Addition Adventure</h2>
+            <div class="cardHint">Understand and try to get all correct!</div>
+          </div>
+          <div class="ribbon">GO!</div>
+        </div>
+
+        <div class="cardBody">
+          <div class="btnRow">
+            <!-- ✅ replace these 2 links -->
+            <a class="btn primary" href="https://example.com/addition" target="_blank" rel="noopener">
+              <span class="icon">↗</span> Website
+            </a>
+            <a class="btn sls" href="https://example.com/sls-addition" target="_blank" rel="noopener">
+              <span class="icon">S</span> Link to SLS
+            </a>
+          </div>
+
+          <div class="meta">
+            <div class="pill">⭐ Stars</div>
+            <div class="pill">🎯 Accuracy</div>
+            <div class="pill">⚡ Speed</div>
+          </div>
+        </div>
+      </article>
+
+      <!-- SUBTRACTION CARD -->
+      <article class="card subtr">
+        <div class="cardTop">
+          <div>
+            <h2 class="cardTitle">Subtraction Quest</h2>
+            <div class="cardHint">Find the difference, and give yourself a pat on the back! 🏆 </div>
+          </div>
+          <div class="ribbon">WOW!</div>
+        </div>
+
+        <div class="cardBody">
+          <div class="btnRow">
+            <!-- ✅ replace these 2 links -->
+            <a class="btn primary" href="https://example.com/subtraction" target="_blank" rel="noopener">
+              <span class="icon">↗</span> Website
+            </a>
+            <a class="btn sls" href="https://example.com/sls-subtraction" target="_blank" rel="noopener">
+              <span class="icon">S</span> Link to SLS
+            </a>
+          </div>
+
+          <div class="meta">
+            <div class="pill">🏆 Badges</div>
+            <div class="pill">🧠 Brain Power</div>
+            <div class="pill">✨ Focus</div>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <footer>
+      <span class="credit">Designed by Lim Kim Sze © 2026</span>
+    </footer>
+  </div>
+
+  <div class="toast" id="toast">Ready!</div>
+
+  <script>
+    const toastEl = document.getElementById("toast");
+    let timer = null;
+
+    function toast(msg){
+      toastEl.textContent = msg;
+      toastEl.classList.add("show");
+      clearTimeout(timer);
+      timer = setTimeout(()=> toastEl.classList.remove("show"), 1200);
+    }
+
+    // bubbles
+    document.querySelectorAll(".bubble").forEach(b=>{
+      b.addEventListener("click", ()=>{
+        const k = b.getAttribute("data-b");
+        const map = {
+          addition: "Addition mission selected! ⭐",
+          subtraction: "Subtraction mission selected! 🏆",
+          speed: "Speed tip: read carefully, then answer fast ⚡",
+          accuracy: "Accuracy tip: check your working 🎯"
+        };
+        toast(map[k] || "Let’s go!");
+      });
+    });
+
+    // buttons
+    document.querySelectorAll("a.btn").forEach(a=>{
+      a.addEventListener("mouseenter", ()=>{
+        toast("Ready: " + a.textContent.trim().replace(/\s+/g," "));
+      });
+      a.addEventListener("click", ()=>{
+        toast("Launching: " + a.textContent.trim().replace(/\s+/g," "));
+      });
+    });
+
+    toast("Welcome! Pick a mission card 🚀");
+  </script>
+</body>
+</html>
